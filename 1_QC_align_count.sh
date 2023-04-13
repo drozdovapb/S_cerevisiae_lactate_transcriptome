@@ -25,4 +25,4 @@ for sample in `ls ../0_raw_data/S6614_1/01_fastq/RNA_S6614Nr*1.fastq.gz`; \
 
 ## featureCounts: quantify
 /media/secondary/apps/subread-2.0.4-Linux-x86_64/bin/featureCounts -a ../1_refs/Saccharomyces_cerevisiae.R64-1-1.108.gtf \
-  -s 2 -T 6 -p -o allSamples.featureCounts.txt (ls *.bam)
+  -s 2 -T 6 -p -o allSamples.featureCounts.txt $(ls *.bam)
