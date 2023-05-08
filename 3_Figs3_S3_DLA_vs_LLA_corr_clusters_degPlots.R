@@ -1,5 +1,7 @@
 ## Fig. 3: DLA vs LLA
 library(DEGreport) ## to build clusters
+library(ggplot2)
+library(DESeq2)
 load("data/DE.RData")
 source("./0_helper_functions.R")
 
@@ -49,6 +51,24 @@ p3C <- res2$plot +
 #cluster.info <- unique(p3C$data$title)
 #names(cluster.info) <- 1:6
 #p3C + facet_wrap( ~ cluster, labeller = labeller(cluster=cluster.info), nrow=1) 
+
+## Fig. S3
+clust1 <- res2$df[res2$df$cluster == 1, ]
+clust1$genes
+writeLines(clust1$genes, "data/clust1.txt")
+
+clust1$genes <- gsub(".A", "-A", clust1$genes)
+clust1$genes <- gsub(".B", "-B", clust1$genes)
+
+png("figs/FigS3.png", width = 20, height = 15, units="cm", res=300)
+myDegPlotWide(genes=clust1$genes, counts = dds, group = "condition") + 
+  expand_limits(y=0) +
+  facet_wrap(~gene, nrow = 3, scales = "fixed" ) + # , labeller = labeller(gene = qual.sensor.genes)) + 
+  scale_x_discrete(labels = c("control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
+  theme(strip.text = element_text(face = "italic"), legend.position = 'none') + 
+  scale_color_manual(values = c("black", blues9[5:8], "yellow4"))
+dev.off()
+
 
 
 ## let's now deal with the DL vs LL, trying to make sense out of these genes
