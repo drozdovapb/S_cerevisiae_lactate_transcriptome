@@ -19,6 +19,10 @@ dds <- DESeq(dds)
 res <- results(dds)
 #write.table(as.data.frame(resOrdered),sep='\t', quote=FALSE, file='wt_mutant_p-values.txt')
 
+## save normalized counts for GEO submission
+normalized_counts_DESeq <- counts(dds, normalized=TRUE)
+write.csv(normalized_counts_DESeq, file="data/normalized_counts_DESeq.csv")
+
 ## check PCA (nothing thrilling)
 vsd <- vst(dds)
 plotPCA(vsd, intgroup=c("condition"))

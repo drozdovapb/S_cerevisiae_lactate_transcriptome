@@ -25,7 +25,7 @@ pS4A <-
   geom_vline(xintercept = 0, linetype = "dotted") + 
   theme_bw()
 #ggsave("ours_vs_Kawahata_DE_5genes.png")
-
+cor(combined$log2FoldChange, combined$logFC, use = "complete.obs")
 
 ## acid adaptation
 kawahata.adapt <- read.xlsx(xlsxFile = "data/Kawahata_0.3percentLL_0.1to1_DE.xlsx")
@@ -44,7 +44,7 @@ ggplot(combined, aes(logFC, log2FoldChange)) +
   theme_bw()
 pS4B
 #ggsave("ours_vs_Kawahata.adapt_DE_5genes.png")
-
+cor(combined$log2FoldChange, combined$logFC, use = "complete.obs")
 
 
 ## now the same for Abbott, for which we had redone the calculations (see the previous script)
@@ -75,7 +75,7 @@ summary(lm(formula = log2FoldChange ~ logFC, data = combined))
 ##(Intercept) -0.38293    0.10546  -3.631 0.000946 ***
 ##  logFC        0.57087    0.04888  11.680 2.89e-13 ***
 cor(combined$log2FoldChange, combined$logFC, use = "complete.obs")
-## 0.89
+## 0.897
 
 
 
@@ -99,7 +99,7 @@ summary(lm(formula = log2FoldChange ~ logFC, data = combined))
 ##(Intercept) -0.38293    0.10546  -3.631 0.000946 ***
 ##  logFC        0.57087    0.04888  11.680 2.89e-13 ***
 cor(combined$log2FoldChange, combined$logFC, use = "complete.obs")
-## 0.89, much worse
+## 0.44, much worse
 
 pS4 <- ggarrange(pS4A, pS4B, pS4C, pS4D, labels=LETTERS[1:4])
 pS4
