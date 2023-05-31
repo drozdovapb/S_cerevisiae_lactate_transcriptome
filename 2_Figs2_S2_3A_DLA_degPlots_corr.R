@@ -1,16 +1,16 @@
-load("data/DE.RData")
+load("DE.RData")
 
 #library(ggplot2)
 #library(ggpubr)
 
 ## Fig. 2: lactate-related genes
-source("./0_helper_functions.R")
+source("0_helper_functions.R")
 
 gene_names <- c("YDL174C, DLD1", "YEL071W, DLD3", "YMR322C, SNO4", "YPL280W, HSP32")
 names(gene_names) <- c("YDL174C", "YEL071W", "YMR322C", "YPL280W")
 
 p2A <- 
-myDegPlotWide(dds, c("YDL174C", "YEL071W", "YMR322C", "YPL280W"), group="condition") + 
+  myDegPlotWide(dds, c("YDL174C", "YEL071W", "YMR322C", "YPL280W"), group="condition") + 
   expand_limits(y=c(0, 16)) + 
   facet_wrap(~gene, nrow = 1, labeller = labeller(gene = gene_names), scales = "fixed") + 
   scale_x_discrete(labels = c("control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
@@ -41,8 +41,8 @@ pDLmergedAll <-
   geom_vline(xintercept=0, linetype="dotted") + geom_hline(yintercept=0, linetype="dotted")
 pDLmergedAll
 
-p2 <- ggarrange(p2A, labels = "A", nrow=2,
-          ggarrange(pDLmerged, pDLmergedAll, labels = c("B", "C")))
+p2 <- ggarrange(p2A, labels = "a", nrow=2,
+                ggarrange(pDLmerged, pDLmergedAll, labels = c("b", "c")))
 p2
 #ggsave("figs/Fig2.png", width = 20, height = 15, units = "cm") ## should have worked but fonts... ;(
 png("figs/Fig2.png", width = 20, height = 15, units = "cm", res=300)
@@ -52,7 +52,7 @@ dev.off()
 
 pS2 <- myDegPlotWide(genes=c("YAL053W", "YGR189C", "YMR305C", "YGR032W"), counts = dds, group = "condition") + 
   expand_limits(y=0) +
-#  facet_wrap(~gene, nrow = 1, scales = "fixed") + ##labeller = labeller(gene = gene_names)
+  #  facet_wrap(~gene, nrow = 1, scales = "fixed") + ##labeller = labeller(gene = gene_names)
   scale_x_discrete(labels = c("control", "50 uM DLA", "500 uM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
   theme(strip.text = element_text(face = "italic"), legend.position = 'none') + 
   scale_color_manual(values = c("black", blues9[5:8], "yellow4"))
