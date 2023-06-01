@@ -4,7 +4,7 @@ library(ggpubr)
 
 #### Kawahata, acid shock
 ## these data were taken from the supplement => to xlsx manually
-kawahata <- read.xlsx(xlsxFile = "Kawahata_0.3percentLL_30min_DE.xlsx")
+kawahata <- read.xlsx(xlsxFile = "data/Kawahata_0.3percentLL_30min_DE.xlsx")
 kawahata$Fold.change <- as.numeric(kawahata$Fold.change)
 kawahata$logFC <- log2(kawahata$Fold.change)
 
@@ -28,7 +28,7 @@ pS4A <-
 cor(combined$log2FoldChange, combined$logFC, use = "complete.obs")
 
 ## acid adaptation
-kawahata.adapt <- read.xlsx(xlsxFile = "Kawahata_0.3percentLL_0.1to1_DE.xlsx")
+kawahata.adapt <- read.xlsx(xlsxFile = "data/Kawahata_0.3percentLL_0.1to1_DE.xlsx")
 kawahata.adapt$Fold.change <- as.numeric(kawahata.adapt$Fold.change)
 kawahata.adapt$logFC <- log2(kawahata.adapt$Fold.change)
 
@@ -50,7 +50,7 @@ cor(combined$log2FoldChange, combined$logFC, use = "complete.obs")
 ## now the same for Abbott, for which we had redone the calculations (see the previous script)
 
 
-abbott500 <- read.delim("Abbott_DE_results_500.tsv")
+abbott500 <- read.delim("data/Abbott_DE_results_500.tsv")
 ## only DE
 abbott500 <- abbott500[abbott500$adj.P.Val < 0.05 & abs(abbott500$logFC) > 1, ]
 ## our
@@ -79,7 +79,7 @@ cor(combined$log2FoldChange, combined$logFC, use = "complete.obs")
 
 
 
-abbott900 <- read.delim("Abbott_DE_results_900.tsv")
+abbott900 <- read.delim("data/Abbott_DE_results_900.tsv")
 abbott900 <- abbott900[abbott900$adj.P.Val < 0.05 & abs(abbott900$logFC) > 1, ]
 names(abbott900) <- gsub("Platform_ORF", "ORF", names(abbott900))
 combined <- merge(abbott900, ours, by = "ORF")

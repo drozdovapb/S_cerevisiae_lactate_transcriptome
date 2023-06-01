@@ -1,4 +1,4 @@
-load("DE.RData")
+load("data/DE.RData")
 
 #library(ggplot2)
 #library(ggpubr)

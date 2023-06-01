@@ -115,6 +115,3 @@ pointLabel(ump$layout, labels = rownames(ump$layout), method="SANN", cex=0.6)
 
 # mean-variance trend, helps to see if precision weights are needed
 plotSA(fit2, main="Mean variance trend, GSE10066")
-
-#### to compare
-head(tT)

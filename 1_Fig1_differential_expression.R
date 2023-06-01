@@ -9,8 +9,8 @@ library(ggpubr) ## for ggarrange
 
 
 ## read data
-count_table <- read.delim("allSamples.featureCounts.txt", skip=1, row.names="Geneid")
-sample_table <- read.delim("sample_table.txt", row.names = "sample")
+count_table <- read.delim("data/allSamples.featureCounts.txt", skip=1, row.names="Geneid")
+sample_table <- read.delim("data/sample_table.txt", row.names = "sample")
 
 
 dds <- DESeqDataSetFromMatrix(countData = count_table[,6:23], colData = sample_table, design = ~ condition)
@@ -21,7 +21,7 @@ res <- results(dds)
 
 ## save normalized counts for GEO submission
 normalized_counts_DESeq <- counts(dds, normalized=TRUE)
-write.csv(normalized_counts_DESeq, file="normalized_counts_DESeq.csv")
+write.csv(normalized_counts_DESeq, file="data/normalized_counts_DESeq.csv")
 
 ## check PCA (nothing thrilling)
 vsd <- vst(dds)
@@ -54,7 +54,7 @@ res_DL45vsLL45.df <- res_DL45vsLL45.df[order(res_DL45vsLL45.df$padj), ]
 
 write.xlsx(x = list(res_DL0.05vsC.df, res_DL0.5vsC.df, res_DL5vsC.df, res_DL45vsC.df, res_LL45vsC.df, res_DL45vsLL45.df),
            sheetName = c("DL 0.05 mM", "DL 0.5 mM", "DL 5 mM", "DL 45 mM", "LL 45 mM", "DL vs LL"),
-           asTable = T, rowNames = T, file = "TableS1_DL_LL_DE.xlsx")
+           asTable = T, rowNames = T, file = "data/TableS1_DL_LL_DE.xlsx")
 
 
 
@@ -75,7 +75,7 @@ DLLL.degs <- res_DL45vsLL45.df[abs(res_DL45vsLL45.df$log2FoldChange) > fcthresho
 
 write.xlsx(x = list(DL0005.degs, DL0050.degs, DL0500.degs, DL4500.degs, LL4500.degs, DLLL.degs),
            sheetName = c("DL 50 uM", "DL 500 uM", "DL 5 mM", "DL 45 mM", "LL 45 mM", "DLvsLL"),
-           asTable = T, rowNames = T, file = "DL_LL_DE_only.xlsx")
+           asTable = T, rowNames = T, file = "data/DL_LL_DE_only.xlsx")
 
 
 ## heatmap for 133 top genes (not used in the final manuscript)

@@ -1,5 +1,6 @@
 ## DegPlotWide == modified function
 library(dplyr)
+library(ggpubr)
 
 myDegPlotWide <- function (counts, genes, group, metadata = NULL, batch = NULL) {
   if (is.null(metadata)) 
@@ -45,7 +46,7 @@ myDegPlotWide <- function (counts, genes, group, metadata = NULL, batch = NULL) 
 library(DEGreport) ## to build clusters
 library(ggplot2)
 library(DESeq2)
-load("DE.RData")
+load("data/DE.RData")
 source("0_helper_functions.R")
 
 
@@ -98,10 +99,10 @@ p3c <- res2$plot +
 ## Fig. S3
 clust1 <- res2$df[res2$df$cluster == 1, ]
 clust1$genes
-writeLines(clust1$genes, "clust1.txt")
+writeLines(clust1$genes, "data/clust1.txt")
 
-clust1$genes <- gsub(".a", "-a", clust1$genes)
-clust1$genes <- gsub(".b", "-b", clust1$genes)
+clust1$genes <- gsub(".A", "-A", clust1$genes)
+clust1$genes <- gsub(".B", "-B", clust1$genes)
 
 png("figs/FigS3.png", width = 20, height = 15, units="cm", res=300)
 myDegPlotWide(genes=clust1$genes, counts = dds, group = "condition") + 
@@ -111,8 +112,6 @@ myDegPlotWide(genes=clust1$genes, counts = dds, group = "condition") +
   theme(strip.text = element_text(face = "italic"), legend.position = 'none') + 
   scale_color_manual(values = c("black", blues9[5:8], "yellow4"))
 dev.off()
-
-
 
 ## let's now deal with the DL vs LL, trying to make sense out of these genes
 degsDLvsLL <- row.names(DLLL.degs)
@@ -136,7 +135,7 @@ p3d
 p3 <- ggarrange(p3ab, p3c, p3d, nrow=3, labels = c("", "c", "d"), heights = c(2,3,2))
 p3
 
-png( width = 200, height = 240, units="cm", res=300)
+png("figs/Fig3.png", width = 20, height = 25, units="cm", res=300)
 p3
 #ggsave("figs/Fig3.png", width = 20, height = 22, units = "cm") ##this should have worked, but fonts... :(
 dev.off()
@@ -151,5 +150,5 @@ myDegPlotWide(genes=c("YHL028W", "YLR054C", "YLR121C", "YGR189C", "YGR146C",
   scale_x_discrete(labels = c("control", "50 uM DLA", "500 uM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
   theme(strip.text = element_text(face = "italic"), legend.position = 'none') + 
   scale_color_manual(values = c("black", blues9[5:8], "yellow4"))
-ggsave("DLvsLL_freescale.png", width = 24, height = 16, units="cm")  
+#ggsave("DLvsLL_freescale.png", width = 24, height = 16, units="cm")  
 
