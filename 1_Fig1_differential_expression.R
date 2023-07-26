@@ -97,6 +97,7 @@ pA <- EnhancedVolcano(res_DL45vsC, lab = rownames(res),
                       title="a", subtitle="45 mM DLA vs. control", 
                       col = c("grey30", "grey30", "grey30", "red2"),
                       xlab="",
+                      ylab = bquote(~-Log[10] ~ italic(p)),
                       caption="", selectLab = "", legendPosition = 'none')
 pA
 pB <- EnhancedVolcano(res_DL5vsC, lab = rownames(res),
@@ -122,8 +123,8 @@ pD <- EnhancedVolcano(res_DL0.5vsC, lab = rownames(res),
                       x = 'log2FoldChange', y = 'pvalue', 
                       pCutoff=0.05, pCutoffCol = 'padj', FCcutoff = 1,
                       title="d", subtitle="0.5 mM DLA vs. control",
+                      ylab = bquote(~-Log[10] ~ italic(p)),
                       col = c("grey30", "grey30", "grey30", "red2"),
-                      ylab="",
                       caption="", selectLab = "", legendPosition = 'none')
 pD
 
@@ -133,6 +134,7 @@ pE <- EnhancedVolcano(res_DL0.05vsC, lab = rownames(res),
                       pCutoff=0.05, pCutoffCol = 'padj', FCcutoff = 1,
                       title="e", subtitle="0.05 mM DLA vs. control",
                       col = c("grey30", "grey30", "grey30", "red2"),
+                      ylab="",
                       caption="", selectLab = "", legendPosition = 'none')
 pE
 

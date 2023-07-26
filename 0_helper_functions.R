@@ -36,7 +36,7 @@ myDegPlotWide <- function (counts, genes, group, metadata = NULL, batch = NULL) 
   p = p + geom_point(position = position_jitterdodge(dodge.width = 0.9), alpha=.5) + 
     stat_summary(fun = "median", geom = "crossbar") + 
     facet_wrap(~gene, scales="fixed", nrow=1) + 
-    xlab("") + ylab("Normalized Counts") + theme_bw() + 
+    xlab("") + ylab("Normalized counts") + theme_bw() + 
     theme(axis.text.x = element_text(angle = 45L, hjust = 1L))
   p
 }

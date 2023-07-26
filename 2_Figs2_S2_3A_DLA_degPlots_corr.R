@@ -13,7 +13,7 @@ p2A <-
   myDegPlotWide(dds, c("YDL174C", "YEL071W", "YMR322C", "YPL280W"), group="condition") + 
   expand_limits(y=c(0, 16)) + 
   facet_wrap(~gene, nrow = 1, labeller = labeller(gene = gene_names), scales = "fixed") + 
-  scale_x_discrete(labels = c("control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
+  scale_x_discrete(labels = c("Control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
   theme(strip.text = element_text(face = "italic"), legend.position = 'none') + 
   scale_color_manual(values = c("black", blues9[5:8], "yellow4"))
 p2A
@@ -28,7 +28,8 @@ cor(DLmerged$log2FoldChange.x, DLmerged$log2FoldChange.y)
 pDLmerged <- 
   ggplot(DLmerged, aes(log2FoldChange.x, log2FoldChange.y)) + 
   geom_point(alpha=1) + theme_bw() + 
-  xlab("log2 fold change, 5 mM DLA") + ylab("log2 fold change, 45 mM DLA") +
+  xlab(expression(Log[2]~"fold change, 5 mM DLA")) + 
+  ylab(expression(Log[2]~"fold change, 45 mM DLA")) +
   geom_vline(xintercept=0, linetype="dotted") + geom_hline(yintercept=0, linetype="dotted")
 pDLmerged
 
@@ -37,7 +38,8 @@ cor(DLmergedAll$log2FoldChange.x, DLmergedAll$log2FoldChange.y, use="complete.ob
 pDLmergedAll <- 
   ggplot(DLmergedAll, aes(log2FoldChange.x, log2FoldChange.y)) + 
   geom_point(alpha=.1) + theme_bw() + 
-  xlab("log2 fold change, 5 mM DLA") + ylab("log2 fold change, 45 mM DLA") +
+  xlab(expression(Log[2]~"fold change, 5 mM DLA")) + 
+  ylab(expression(Log[2]~"fold change, 45 mM DLA")) +
   geom_vline(xintercept=0, linetype="dotted") + geom_hline(yintercept=0, linetype="dotted")
 pDLmergedAll
 
@@ -53,7 +55,7 @@ dev.off()
 pS2 <- myDegPlotWide(genes=c("YAL053W", "YGR189C", "YMR305C", "YGR032W"), counts = dds, group = "condition") + 
   expand_limits(y=0) +
   #  facet_wrap(~gene, nrow = 1, scales = "fixed") + ##labeller = labeller(gene = gene_names)
-  scale_x_discrete(labels = c("control", "50 uM DLA", "500 uM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
+  scale_x_discrete(labels = c("Control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
   theme(strip.text = element_text(face = "italic"), legend.position = 'none') + 
   scale_color_manual(values = c("black", blues9[5:8], "yellow4"))
 pS2

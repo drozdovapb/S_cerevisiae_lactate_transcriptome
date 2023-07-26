@@ -2,46 +2,6 @@
 library(dplyr)
 library(ggpubr)
 
-myDegPlotWide <- function (counts, genes, group, metadata = NULL, batch = NULL) {
-  if (is.null(metadata)) 
-    metadata = data.frame(colData(counts))
-  metadata = data.frame(metadata)
-  if (class(counts)[1] == "DESeqDataSet") {
-    dd = bind_rows(lapply(genes, function(gene) {
-      plotCounts(counts, gene, intgroup = group, returnData = TRUE) %>% 
-        mutate(count = log2(count + 1)) %>% mutate(gene = gene, 
-                                                   sample = row.names(metadata))
-    }))
-    dd$group = dd[[group]]
-  }
-  else if (class(counts)[1] == "matrix") {
-    dd = melt(counts[genes, ])
-    colnames(dd) = c("gene", "sample", "count")
-    dd$group = as.factor(metadata[as.character(dd$sample), 
-                                  group])
-  }
-  else {
-    stop("No supported for class", class(counts)[1])
-  }
-  if (is.null(group)) {
-    dd$treatment = "one_group"
-  }
-  else {
-    dd$treatment = dd[, "group"]
-  }
-  p = ggplot(dd, aes_string(x = "treatment", y = "count", color = "treatment"))
-  if (!is.null(batch)) {
-    dd$batch = as.factor(metadata[dd$sample, batch])
-    p = ggplot(dd, aes(x = "treatment", y = "count", shape = "batch"))
-  }
-  p = p + geom_point(position = position_jitterdodge(dodge.width = 0.9), alpha=.5) + 
-    stat_summary(fun = "median", geom = "crossbar") + 
-    facet_wrap(~gene, scales="fixed", nrow=1) + 
-    xlab("") + ylab("Normalized Counts") + theme_bw() + 
-    theme(axis.text.x = element_text(angle = 45L, hjust = 1L))
-  p
-}
-
 ## Fig. 3: DLA vs LLA
 library(DEGreport) ## to build clusters
 library(ggplot2)
@@ -57,8 +17,12 @@ plot(LLDLmerged$log2FoldChange.x, LLDLmerged$log2FoldChange.y)
 cor(LLDLmerged$log2FoldChange.x, LLDLmerged$log2FoldChange.y)
 pLLDLmerged <- ggplot(LLDLmerged, aes(log2FoldChange.x, log2FoldChange.y)) + 
   geom_point(alpha=1) + theme_bw() + 
-  xlab("log2 fold change, 45 mM DLA") + ylab("log2 fold change, 45 mM LLA") +
-  geom_vline(xintercept=0, linetype="dotted") + geom_hline(yintercept=0, linetype="dotted")
+#  xlab("log2 fold change, 45 mM DLA") + ylab("log2 fold change, 45 mM LLA") +
+  xlab(expression(Log[2]~"fold change, 45 mM DLA")) + 
+  ylab(expression(Log[2]~"fold change, 45 mM LLA")) +
+  geom_vline(xintercept=0, linetype="dotted") + 
+  geom_hline(yintercept=0, linetype="dotted") + 
+  theme(axis.title.y = element_text(hjust=.35))
 pLLDLmerged
 
 ## all genes
@@ -68,8 +32,12 @@ cor(LLDLmergedAll$log2FoldChange.x, LLDLmergedAll$log2FoldChange.y, use="complet
 pLLDLmergedAll <- 
   ggplot(LLDLmergedAll, aes(log2FoldChange.x, log2FoldChange.y)) + 
   geom_point(alpha=.1) + theme_bw() + 
-  xlab("log2 fold change, 45 mM DLA") + ylab("log2 fold change, 45 mM LLA") +
-  geom_vline(xintercept=0, linetype="dotted") + geom_hline(yintercept=0, linetype="dotted")
+#  xlab("log2 fold change, 45 mM DLA") + ylab("log2 fold change, 45 mM LLA") +
+  xlab(expression(Log[2]~"fold change, 45 mM DLA")) + 
+  ylab(expression(Log[2]~"fold change, 45 mM LLA")) +
+  geom_vline(xintercept=0, linetype="dotted") + 
+  geom_hline(yintercept=0, linetype="dotted") + 
+  theme(axis.title.y = element_text(hjust=.35))
 pLLDLmergedAll
 
 p3ab <- 
@@ -89,7 +57,7 @@ ma = assay(rlog(dds))[row.names(res) %in% degs, ]
 #res2 <- myDegPatterns(ma, design, time = "condition", minc=1, scale=F)
 res2 <- degPatterns(ma, design, time = "condition", minc=1)
 p3c <- res2$plot + 
-  scale_x_discrete(labels = c("control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
+  scale_x_discrete(labels = c("Control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
   theme_bw() + theme(legend.position = 'none', axis.text.x = element_text(angle = 45L, hjust = 1L))
 
 #cluster.info <- unique(p3C$data$title)
@@ -108,7 +76,7 @@ png("figs/FigS3.png", width = 20, height = 15, units="cm", res=300)
 myDegPlotWide(genes=clust1$genes, counts = dds, group = "condition") + 
   expand_limits(y=0) +
   facet_wrap(~gene, nrow = 3, scales = "fixed" ) + # , labeller = labeller(gene = qual.sensor.genes)) + 
-  scale_x_discrete(labels = c("control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
+  scale_x_discrete(labels = c("Control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
   theme(strip.text = element_text(face = "italic"), legend.position = 'none') + 
   scale_color_manual(values = c("black", blues9[5:8], "yellow4"))
 dev.off()
@@ -127,7 +95,7 @@ p3d <-
   myDegPlotWide(genes=qual.sensor, counts = dds, group = "condition") + 
   expand_limits(y=0) +
   facet_wrap(~gene, nrow = 1, scales = "fixed", labeller = labeller(gene = qual.sensor.genes)) + 
-  scale_x_discrete(labels = c("control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
+  scale_x_discrete(labels = c("Control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
   theme(strip.text = element_text(face = "italic"), legend.position = 'none') + 
   scale_color_manual(values = c("black", blues9[5:8], "yellow4"))
 p3d
@@ -135,7 +103,7 @@ p3d
 p3 <- ggarrange(p3ab, p3c, p3d, nrow=3, labels = c("", "c", "d"), heights = c(2,3,2))
 p3
 
-png("figs/Fig3.png", width = 20, height = 25, units="cm", res=300)
+png("figs/Fig3.png", width = 20, height = 25.3, units="cm", res=300)
 p3
 #ggsave("figs/Fig3.png", width = 20, height = 22, units = "cm") ##this should have worked, but fonts... :(
 dev.off()
@@ -147,7 +115,7 @@ myDegPlotWide(genes=c("YHL028W", "YLR054C", "YLR121C", "YGR189C", "YGR146C",
   #geom_boxplot() + 
   expand_limits(y=0) +
   facet_wrap(~gene, nrow = 2, scales = "fixed") + ##labeller = labeller(gene = gene_names)
-  scale_x_discrete(labels = c("control", "50 uM DLA", "500 uM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
+  scale_x_discrete(labels = c("Control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
   theme(strip.text = element_text(face = "italic"), legend.position = 'none') + 
   scale_color_manual(values = c("black", blues9[5:8], "yellow4"))
 #ggsave("DLvsLL_freescale.png", width = 24, height = 16, units="cm")  
