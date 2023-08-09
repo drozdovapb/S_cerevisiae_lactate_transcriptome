@@ -25,13 +25,13 @@ pairwise.wilcox.test(dat$Log2.Growth, dat$condition)
 ## relative growth rate!
 
 png("figs/FigS1_growth_inhibition.png", width = 20, height = 8, units="cm", res=200)
-ggplot(dat, aes(x=condition, y=RGR, col = condition)) + 
+ggplot(dat, aes(x=condition, y=RGR2, col = condition)) + 
   geom_boxplot() + 
   geom_beeswarm() + 
   #geom_jitter(width =.1) + 
   xlab("") + ylab("Relative growth rate") + 
   theme_bw() + 
-  scale_x_discrete(labels = c("control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM DLA")) + 
+  scale_x_discrete(labels = c("control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
   scale_color_manual(values = c("black", blues9[5:8], "yellow4")) + 
   theme(legend.position = 'none')
 #ggsave("figs/FigS1_growth_inhibition.png", width = 20, height = 8, units="cm")
