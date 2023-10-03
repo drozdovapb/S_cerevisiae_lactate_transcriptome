@@ -9,7 +9,7 @@ kawahata$Fold.change <- as.numeric(kawahata$Fold.change)
 kawahata$logFC <- log2(kawahata$Fold.change)
 
 ## our to comparison
-ours <- read.xlsx(xlsxFile = "DL_LL_DE_only.xlsx", sheet = "LL 45 mM")
+ours <- read.xlsx(xlsxFile = "data/DL_LL_DE_only.xlsx", sheet = "LL 45 mM")
 names(ours)[1] <- "ORF"
 
 
@@ -54,12 +54,13 @@ abbott500 <- read.delim("data/Abbott_DE_results_500.tsv")
 ## only DE
 abbott500 <- abbott500[abbott500$adj.P.Val < 0.05 & abs(abbott500$logFC) > 1, ]
 ## our
-ours <- read.xlsx(xlsxFile = "DL_LL_DE_only.xlsx", sheet = "LL 45 mM")
+ours <- read.xlsx(xlsxFile = "data/DL_LL_DE_only.xlsx", sheet = "LL 45 mM")
 names(ours)[1] <- "ORF"
 names(abbott500) <- gsub("Platform_ORF", "ORF", names(abbott500))
 
 
 combined <- merge(abbott500, ours, by = "ORF")
+write.csv(combined, file = "data/ours_vs_Abbott500.csv")
 ## basically, there are just ours
 pS4C <- 
   ggplot(combined, aes(logFC, log2FoldChange)) + 
@@ -83,6 +84,7 @@ abbott900 <- read.delim("data/Abbott_DE_results_900.tsv")
 abbott900 <- abbott900[abbott900$adj.P.Val < 0.05 & abs(abbott900$logFC) > 1, ]
 names(abbott900) <- gsub("Platform_ORF", "ORF", names(abbott900))
 combined <- merge(abbott900, ours, by = "ORF")
+write.csv(combined, file = "data/ours_vs_Abbott900.csv")
 ## basically, there are just ours
 
 pS4D <- 

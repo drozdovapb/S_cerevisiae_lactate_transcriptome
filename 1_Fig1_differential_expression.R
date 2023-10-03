@@ -8,6 +8,7 @@ library(ggplot2) ## generally for plotting
 library(ggpubr) ## for ggarrange
 library(BioVenn) ## for venn diagram with proportional circles
 library(cowplot) ## for venn diagram with proportional circles
+library(dplyr) ## for rounding up all digits
 
 ## read data
 count_table <- read.delim("data/allSamples.featureCounts.txt", skip=1, row.names="Geneid")
@@ -54,6 +55,7 @@ res_DL45vsLL45.df <- as.data.frame(res_DL45vsLL45)
 res_DL45vsLL45.df <- res_DL45vsLL45.df[order(res_DL45vsLL45.df$padj), ]
 
 #### different concentrations 
+fcthreshold <- 1
 ## 45 mM vs 5 mM
 res_DL45vsDL05 = results(dds, contrast=c("condition", "DL4500", "DL0500"))
 res_DL45vsDL05.df <- as.data.frame(res_DL45vsDL05)
@@ -80,9 +82,10 @@ res_DL45vsDL05.df[abs(res_DL45vsDL05.df$log2FoldChange) > fcthreshold & res_DL45
 
 ####
 
+
 write.xlsx(x = list(res_DL0.05vsC.df, res_DL0.5vsC.df, res_DL5vsC.df, res_DL45vsC.df, res_LL45vsC.df, res_DL45vsLL45.df, res_DL45vsDL05.df),
            sheetName = c("DL 0.05 mM", "DL 0.5 mM", "DL 5 mM", "DL 45 mM", "LL 45 mM", "DL vs LL", "DL 45 vs 5 mM"),
-           asTable = T, rowNames = T, file = "data/TableS1_DL_LL_DE.xlsx")
+           asTable = F, rowNames = T, file = "data/TableS2_DL_LL_DE.xlsx", firstRow=TRUE, colWidth="auto")
 
 
 

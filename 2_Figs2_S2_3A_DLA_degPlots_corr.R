@@ -2,6 +2,7 @@ load("data/DE.RData")
 
 #library(ggplot2)
 #library(ggpubr)
+library(DESeq2)
 
 ## Fig. 2: lactate-related genes
 source("0_helper_functions.R")
@@ -65,3 +66,16 @@ png("figs/Figs2_cell_wall.png", width = 20, height = 8, units="cm", res=300)
 pS2
 dev.off()
 
+
+### additional for diff concentrations of DLA
+
+gene_names <- c("YOR382W, FIT2", "YOR383C, FIT3", "YHL047C, ARN2", "YHL040C, ARN1", "YMR096W, SNZ1", "YNL065W, AQR1")
+names(gene_names) <- c("YOR382W", "YOR383C", "YHL047C", "YHL040C", "YMR096W", "YNL065W")
+
+myDegPlotWide(genes=c("YOR382W", "YOR383C", "YHL047C", "YHL040C", "YMR096W", "YNL065W"), 
+              counts = dds, group = "condition") + 
+  expand_limits(y=0) +
+  facet_wrap(~gene, nrow = 2, scales = "fixed", labeller = labeller(gene = gene_names)) + 
+  scale_x_discrete(labels = c("Control", "0.05 mM DLA", "0.5 mM DLA", "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
+  theme(strip.text = element_text(face = "italic"), legend.position = 'none') + 
+  scale_color_manual(values = c("black", blues9[5:8], "yellow4"))
