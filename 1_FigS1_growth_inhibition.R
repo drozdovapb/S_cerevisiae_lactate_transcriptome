@@ -14,17 +14,17 @@ min(dat$OD600_init)
 max(dat$OD600_init)
 
 ## how many repeats?
-unique(dat$sample_id)
+unique(dat$Sample_id)
 ## within how many days?
-unique(substr(dat$sample_id, 1, 8))
+unique(substr(dat$Sample_id, 1, 8))
 
 pS1 <- 
-ggplot(dat, aes(x=condition, y=RGR2, col = condition)) + 
+ggplot(dat, aes(x=Condition, y=RGR2, col = Condition)) + 
   geom_boxplot() + 
   geom_beeswarm() + 
   xlab("") + ylab("Relative growth rate") + 
   theme_bw() + 
-  scale_x_discrete(labels = c("control", "0.05 mM DLA", "0.5 mM DLA", 
+  scale_x_discrete(labels = c("Control", "0.05 mM DLA", "0.5 mM DLA", 
                               "5 mM DLA", "45 mM DLA", "45 mM LLA")) + 
   scale_color_manual(values = c("black", blues9[5:8], "yellow4")) + 
   theme(legend.position = 'none')

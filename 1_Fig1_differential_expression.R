@@ -178,17 +178,18 @@ pF <- EnhancedVolcano(res_DL45vsLL45, lab = rownames(res),
                       pCutoffCol = 'padj', pCutoff = 0.05, 
                       ylab="",
                       col = c("grey30", "grey30", "grey30", "red2"),
+                      caption = paste0("Total = ", nrow(res_DL45vsLL45), " variables"),
                       selectLab = "", legendPosition = 'none')
 pF
 
 
-pNewA <- EnhancedVolcano(res_DL45vsLL45, lab = rownames(res),
-                         x = 'log2FoldChange', y = 'pvalue', 
-                         title="f", subtitle = "45 mM DLA vs. 45 mM LLA",
-                         pCutoffCol = 'padj', pCutoff = 0.05, 
-                         ylab="",
-                         col = c("grey30", "grey30", "grey30", "red2"),
-                         selectLab = "", legendPosition = 'none')
+#pNewA <- EnhancedVolcano(res_DL45vsLL45, lab = rownames(res),
+#                         x = 'log2FoldChange', y = 'pvalue', 
+#                         title="f", subtitle = "45 mM DLA vs. 45 mM LLA",
+#                         pCutoffCol = 'padj', pCutoff = 0.05, 
+#                         ylab="",
+#                         col = c("grey30", "grey30", "grey30", "red2"),
+#                         selectLab = "", legendPosition = 'none')
 
 ## venn diagram to see the intersections between the DEGs
 DL5 = row.names(DL0500.degs) 
